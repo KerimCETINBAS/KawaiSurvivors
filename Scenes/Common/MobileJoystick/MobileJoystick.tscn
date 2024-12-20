@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://fdjh0etcenw8"]
+
+[ext_resource type="Script" path="res://Scripts/Common/InputDevices/MobileJoystick.cs" id="1_yxqwu"]
+[ext_resource type="Texture2D" uid="uid://cd6o1pemnpunt" path="res://assets/Sprites/Mine/Circle_Outline.png" id="2_rxoy6"]
+[ext_resource type="Texture2D" uid="uid://cpq4t5h15a5rm" path="res://assets/Sprites/Mine/Circle.png" id="3_rfjpq"]
+
+[node name="MobileJoystick" type="Control" node_paths=PackedStringArray("JoystickOutline", "JoystickThumb", "JoystickArea")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_yxqwu")
+JoystickOutline = NodePath("JoystickOutline")
+JoystickThumb = NodePath("JoystickOutline/JoystickThumb")
+JoystickArea = NodePath("JoystickReference")
+metadata/_edit_use_anchors_ = true
+
+[node name="JoystickReference" type="ReferenceRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.525
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+
+[node name="JoystickOutline" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("2_rxoy6")
+
+[node name="JoystickThumb" type="TextureRect" parent="JoystickOutline"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(128, 128)
+texture = ExtResource("3_rfjpq")

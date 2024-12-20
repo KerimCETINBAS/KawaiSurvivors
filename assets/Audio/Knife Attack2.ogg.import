@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://w7wni4qj4m3v"
+path="res://.godot/imported/Knife Attack2.ogg-7aa54df7d2e8d2c93c37d8e757990dea.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/Audio/Knife Attack2.ogg"
+dest_files=["res://.godot/imported/Knife Attack2.ogg-7aa54df7d2e8d2c93c37d8e757990dea.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
