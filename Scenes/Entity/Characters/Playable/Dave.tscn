@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvfoxxr2ag38f"]
+
+[ext_resource type="Script" path="res://Scripts/Entity/Characters/Playable/Dave.cs" id="1_uq71p"]
+[ext_resource type="Texture2D" uid="uid://clhifckaem2yl" path="res://assets/Sprites/Characters/Dave.png" id="2_qdoeu"]
+[ext_resource type="PackedScene" uid="uid://pni36doxlaj8" path="res://Scenes/Actions/MoveAction.tscn" id="3_eh63h"]
+[ext_resource type="PackedScene" uid="uid://d4ipkoswksspe" path="res://Scenes/Components/VelocityComponent.tscn" id="3_sp2cq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b3l7a"]
+radius = 25.5831
+
+[node name="Dave" type="CharacterBody2D" node_paths=PackedStringArray("_moveAction") groups=["Player"]]
+z_as_relative = false
+collision_layer = 2
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+script = ExtResource("1_uq71p")
+_moveAction = NodePath("Actions/MoveAction")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qdoeu")
+offset = Vector2(0, -172)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(-2, -46)
+scale = Vector2(3.52, 3.44)
+shape = SubResource("CircleShape2D_b3l7a")
+debug_color = Color(0, 0.78, 0.663, 0.388235)
+
+[node name="Actions" type="Node" parent="."]
+
+[node name="MoveAction" parent="Actions" node_paths=PackedStringArray("VelocityComponent", "CharacterBody") instance=ExtResource("3_eh63h")]
+VelocityComponent = NodePath("../../Components/VelocityComponent")
+CharacterBody = NodePath("../..")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="VelocityComponent" parent="Components" instance=ExtResource("3_sp2cq")]
+SpeedFactor = 300.0

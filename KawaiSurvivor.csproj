@@ -7,7 +7,6 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Scenes\Characters\" />
-    <Folder Include="Scenes\Characters\Dave\" />
+    <Folder Include="Scenes\" />
   </ItemGroup>
 </Project>

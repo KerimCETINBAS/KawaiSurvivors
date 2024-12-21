@@ -20,6 +20,10 @@ config/icon="res://assets/Sprites/Plushies Icon.png"
 
 project/assembly_name="KawaiSurvivor"
 
+[global_group]
+
+Player="Player characters"
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true

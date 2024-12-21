@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://pni36doxlaj8"]
+
+[ext_resource type="Script" path="res://Scripts/Actions/MoveAction.cs" id="1_8bxih"]
+
+[node name="MoveAction" type="Node"]
+script = ExtResource("1_8bxih")
