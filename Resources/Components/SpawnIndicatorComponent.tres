@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SpawnComponent" load_steps=2 format=3 uid="uid://b0y6ply4kon18"]
+
+[ext_resource type="Script" uid="uid://dkldcw1nlrlq8" path="res://Scripts/Components/SpawnComponent.cs" id="1_m6mog"]
+
+[resource]
+script = ExtResource("1_m6mog")
+_isSpawned = false
+metadata/_custom_type_script = ExtResource("1_m6mog")

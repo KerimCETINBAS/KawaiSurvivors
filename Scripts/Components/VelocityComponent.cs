@@ -1,24 +1,44 @@
+using System;
 using Godot;
+using KawaiSurvivor.Scripts.Common;
+using KawaiSurvivor.Scripts.Entity.Characters.Playable;
 
 namespace KawaiSurvivor.Scripts.Components;
 
-public partial class VelocityComponent : Node
-{
-    [Signal] public delegate void OnVelocityChangeEventHandler(Vector2 velocity);
-    [Export] public float SpeedFactor { get; private set; }
+public partial class VelocityComponent : GameComponent
+{   
+    /// <summary>
+    /// #todo refactor this emit signals from a central signal hup
+    /// </summary>
+    [Signal] public delegate void OnVelocityChangeEventHandler(
+        VelocityComponent component, 
+        Common.Entity entity);
+
+    [Export] private float _speedFactor = 0.0f;
     
-    private Vector2 _velocity = Vector2.Zero;
-    public Vector2 Velocity
+    private Vector2 _direction = Vector2.Zero;
+    
+    public float SpeedFactor
     {
-        get => _velocity;
+        get => _speedFactor;
         private set
         {
-            EmitSignal(SignalName.OnVelocityChange, value);
-            _velocity = value;
+            GD.Print(value);
+            _speedFactor = value;
+            EmitSignal(nameof(OnVelocityChange), this, ParentEntity);
         }
-    } 
-    public void Accelerate(Vector2 direction)
-    {
-        Velocity = direction * SpeedFactor;
     }
+    public Vector2 Direction { get => _direction;
+        set
+        {
+      
+            if (_direction.Equals(value)) return;
+            _direction = value;
+            if (ParentEntity is Dave) 
+                GD.Print(value, _speedFactor, Velocity);
+            EmitSignal(nameof(OnVelocityChange), this, ParentEntity);
+        }
+    }
+    
+    public Vector2 Velocity => _direction * _speedFactor;
 }

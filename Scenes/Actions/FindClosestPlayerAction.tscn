@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5wc1sdh7dhm"]
+
+[ext_resource type="Script" path="res://Scripts/Actions/FindClosestPlayerAction.cs" id="1_5imho"]
+
+[node name="FindClosestPlayerAction" type="Node"]
+script = ExtResource("1_5imho")

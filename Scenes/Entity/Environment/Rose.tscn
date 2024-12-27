@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgkrstp0kjdvw"]
+
+[ext_resource type="Shader" uid="uid://bmxekknc2qvs" path="res://Resources/Shaders/Vegatable.gdshader" id="1_nm1cd"]
+[ext_resource type="Texture2D" uid="uid://dut0y3iexnjdo" path="res://assets/Sprites/Terrain/Flower_00.png" id="2_jxhfc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jf8gk"]
+shader = ExtResource("1_nm1cd")
+shader_parameter/Speed = 3.0
+shader_parameter/Distance = 10.0
+
+[node name="Rose" type="Sprite2D"]
+z_as_relative = false
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_jf8gk")
+position = Vector2(0, -110)
+texture = ExtResource("2_jxhfc")

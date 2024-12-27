@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=4 uid="uid://bn8plv2agslmg"]
+[gd_scene load_steps=14 format=4 uid="uid://bn8plv2agslmg"]
 
 [ext_resource type="PackedScene" uid="uid://fdjh0etcenw8" path="res://Scenes/Misc/MobileJoystick.tscn" id="1_b65tj"]
 [ext_resource type="PackedScene" uid="uid://cvfoxxr2ag38f" path="res://Scenes/Entity/Characters/Playable/Dave.tscn" id="1_g32oq"]
+[ext_resource type="Script" path="res://Scripts/Systems/VelocitySystem.cs" id="1_goyjx"]
+[ext_resource type="Script" path="res://Scripts/Systems/MobileJoystickInputSystem.cs" id="2_acgyc"]
 [ext_resource type="Texture2D" uid="uid://b1usvu023fdqd" path="res://assets/Sprites/Terrain/TerrainAtlas.png" id="3_h1ddh"]
-[ext_resource type="Texture2D" uid="uid://cafxouto1l21m" path="res://assets/Sprites/Terrain/Flower_02.png" id="4_15461"]
-[ext_resource type="Texture2D" uid="uid://uu1s8jevssrc" path="res://assets/Sprites/Terrain/Flower_01.png" id="6_m5bbu"]
-[ext_resource type="PackedScene" uid="uid://cwg2mvceiy7wq" path="res://Scenes/Entity/Characters/Enemy/RedGhost.tscn" id="7_g33n7"]
-[ext_resource type="Texture2D" uid="uid://dut0y3iexnjdo" path="res://assets/Sprites/Terrain/Flower_00.png" id="7_xkqms"]
+[ext_resource type="PackedScene" uid="uid://be3lx30et1n6t" path="res://Scenes/Entity/Environment/RandomFlower.tscn" id="3_yeumg"]
+[ext_resource type="Texture2D" uid="uid://uu1s8jevssrc" path="res://assets/Sprites/Terrain/Flower_01.png" id="6_rungy"]
+[ext_resource type="PackedScene" uid="uid://c80esoxwxk3v4" path="res://Scenes/Entity/Characters/Enemy/RedGhostECS.tscn" id="7_8mimc"]
+[ext_resource type="Texture2D" uid="uid://dut0y3iexnjdo" path="res://assets/Sprites/Terrain/Flower_00.png" id="8_tptc1"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_6fgjd"]
 tile_data = PackedInt32Array(0, 655360, 1610612736, 65536, 720896, 0, 1, 524288, 536870912, 65537, 589824, 1610612736)
@@ -49,6 +51,17 @@ pattern_1 = SubResource("TileMapPattern_1ic08")
 [node name="Lab" type="Node2D"]
 y_sort_enabled = true
 
+[node name="Systems" type="Node" parent="."]
+
+[node name="VelocitySystem" type="Node" parent="Systems" node_paths=PackedStringArray("Entities")]
+script = ExtResource("1_goyjx")
+Entities = []
+
+[node name="MobileJoystickInputSystem" type="Node" parent="Systems" node_paths=PackedStringArray("_joystick", "Entities")]
+script = ExtResource("2_acgyc")
+_joystick = NodePath("../../Ui/MobileJoystick")
+Entities = []
+
 [node name="Ui" type="CanvasLayer" parent="."]
 
 [node name="MobileJoystick" parent="Ui" instance=ExtResource("1_b65tj")]
@@ -66,100 +79,64 @@ y_sort_origin = 2
 [node name="Vegetation" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Flower02" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
+[node name="RandomFlower" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(1694, 2119)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower14" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(6287, 1189)
+
+[node name="RandomFlower2" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(3817, 1876)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower3" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(3715, 1184)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower4" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(5743, 2076)
+
+[node name="RandomFlower5" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(3925, 3052)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower6" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(6602, 2703)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower7" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(4751, 1988)
+texture = ExtResource("8_tptc1")
+
+[node name="RandomFlower8" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(1078, 1852)
+texture = ExtResource("8_tptc1")
+
+[node name="RandomFlower9" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(2913, 2004)
+texture = ExtResource("8_tptc1")
+
+[node name="RandomFlower10" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(1030, 2771)
+
+[node name="RandomFlower11" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(1607, 628)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower12" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(3247, 428)
+texture = ExtResource("6_rungy")
+
+[node name="RandomFlower13" parent="Vegetation" instance=ExtResource("3_yeumg")]
+position = Vector2(4648, 517)
+texture = ExtResource("6_rungy")
+
+[node name="Entities" type="Node2D" parent="."]
 y_sort_enabled = true
-position = Vector2(2272, 2725)
-texture = ExtResource("4_15461")
 
-[node name="Flower12" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(4728, 973)
-texture = ExtResource("4_15461")
+[node name="RedGhostECS" parent="Entities" instance=ExtResource("7_8mimc")]
+position = Vector2(1328, 1238)
 
-[node name="Flower04" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(3035, 769)
-texture = ExtResource("4_15461")
-
-[node name="Flower08" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(4014, 1688)
-texture = ExtResource("4_15461")
-
-[node name="Flower01" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(2942, 1871)
-texture = ExtResource("6_m5bbu")
-
-[node name="Flower09" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(4951, 2306)
-texture = ExtResource("6_m5bbu")
-
-[node name="Flower07" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(766, 2750)
-texture = ExtResource("6_m5bbu")
-
-[node name="Flower03" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(1444, 1990)
-texture = ExtResource("6_m5bbu")
-
-[node name="Flower00" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(1857, 1013)
-texture = ExtResource("7_xkqms")
-
-[node name="Flower11" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(6433, 2717)
-texture = ExtResource("7_xkqms")
-
-[node name="Flower05" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(932, 843)
-texture = ExtResource("7_xkqms")
-
-[node name="Flower06" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(3598, 3067)
-texture = ExtResource("7_xkqms")
-
-[node name="Flower10" type="Sprite2D" parent="Vegetation"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(5998, 779)
-texture = ExtResource("7_xkqms")
-
-[node name="Dave" parent="." node_paths=PackedStringArray("_mobileJoystick") instance=ExtResource("1_g32oq")]
-position = Vector2(3878, 1903)
-slide_on_ceiling = true
-_mobileJoystick = NodePath("../Ui/MobileJoystick")
-
-[node name="Camera2D" type="Camera2D" parent="Dave"]
-zoom = Vector2(0.3, 0.3)
-
-[node name="RedGhost" parent="." instance=ExtResource("7_g33n7")]
-position = Vector2(4784, 1424)
-
-[node name="RedGhost2" parent="." instance=ExtResource("7_g33n7")]
-position = Vector2(4403, 2693)
-
-[node name="RedGhost3" parent="." instance=ExtResource("7_g33n7")]
-position = Vector2(2682, 1734)
-
-[node name="RedGhost4" parent="." instance=ExtResource("7_g33n7")]
-position = Vector2(2479, 2315)
+[node name="Dave" parent="Entities" instance=ExtResource("1_g32oq")]
+position = Vector2(1618, 1472)

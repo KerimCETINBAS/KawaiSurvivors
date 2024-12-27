@@ -1,39 +1,73 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwg2mvceiy7wq"]
+[gd_scene load_steps=22 format=3 uid="uid://cwg2mvceiy7wq"]
 
+[ext_resource type="Script" path="res://Scripts/Entity/Enemies/RedGhost.cs" id="1_cvya2"]
 [ext_resource type="Texture2D" uid="uid://bvd0cec2tf30a" path="res://assets/Sprites/Enemies/Ghost.png" id="1_gsrap"]
 [ext_resource type="Script" path="res://Scripts/Entity/Characters/Enemy/RedGhost.cs" id="1_ww6dp"]
-[ext_resource type="Script" path="res://Scripts/Behaviors/FindClosestPlayerBehavior.cs" id="2_yu2l6"]
 [ext_resource type="PackedScene" uid="uid://d4ipkoswksspe" path="res://Scenes/Components/VelocityComponent.tscn" id="3_peqan"]
-[ext_resource type="PackedScene" uid="uid://pni36doxlaj8" path="res://Scenes/Actions/MoveAction.tscn" id="3_rjbkb"]
-[ext_resource type="Script" path="res://Scripts/Actions/ExplodeSelfAttack.cs" id="4_ke5ks"]
+[ext_resource type="Texture2D" uid="uid://btawwwc5gb24d" path="res://assets/Sprites/UI/Round Button.png" id="4_cdghk"]
 [ext_resource type="Script" path="res://Scripts/Behaviors/AttackOnCollideBehavior.cs" id="5_888wu"]
-[ext_resource type="Script" path="res://Scripts/Components/ClosestPlayerComponent.cs" id="5_rob4b"]
+[ext_resource type="PackedScene" uid="uid://cy8qm363lw4x2" path="res://Scenes/Entity/Particles/ExplosionParticle.tscn" id="5_smnhs"]
+[ext_resource type="Script" path="res://Scripts/Actions/ExplodeSelfAttack.cs" id="7_mnkfy"]
+[ext_resource type="Script" path="res://Scripts/Actions/MobileGamePadMoveAction.cs" id="7_ofywg"]
+[ext_resource type="Script" path="res://Scripts/Actions/SpawnAction.cs" id="8_dxkxr"]
 [ext_resource type="Script" path="res://Scripts/Components/DamageComponent.cs" id="9_7s4qd"]
+[ext_resource type="Script" path="res://Scripts/Actions/FindClosestEntityInGroupAction.cs" id="9_adj42"]
+[ext_resource type="Script" path="res://Scripts/Policies/SpawnCompletedPolicy.cs" id="9_iukxj"]
+[ext_resource type="Shader" path="res://Resources/Shaders/RedGhost.gdshader" id="10_oi0ns"]
+[ext_resource type="Script" path="res://Scripts/Components/ParticleEmitterComponent.cs" id="13_ub46t"]
+[ext_resource type="PackedScene" uid="uid://ddgkhuv5i602e" path="res://Scenes/Components/EntityComponent.tscn" id="14_ovyiy"]
+[ext_resource type="Script" path="res://Scripts/Components/PlayerRefComponent.cs" id="18_w7r5n"]
+[ext_resource type="Script" path="res://Scripts/Components/DirectionComponent2D.cs" id="19_7prky"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8y2e"]
 radius = 54.231
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lvaja"]
+render_priority = 0
+shader = ExtResource("10_oi0ns")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_3uklq"]
 radius = 75.06
 
-[node name="RedGhost" type="CharacterBody2D" node_paths=PackedStringArray("_moveAction", "_findClosestPlayerBehavior")]
-collision_layer = 2
-script = ExtResource("1_ww6dp")
-_moveAction = NodePath("Actions/MoveAction")
-_findClosestPlayerBehavior = NodePath("Behaviors/FindClosestPlayerBehavior")
+[node name="Enemy" type="Node2D" node_paths=PackedStringArray("_components")]
+script = ExtResource("1_cvya2")
+_components = [NodePath("Components/VelocityComponent"), null, NodePath("Components/DamageComponent"), NodePath("Components/SequenceComponent"), NodePath("Components/ParticleEmitterComponent"), null]
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="SpawnIndicator" type="Sprite2D" parent="."]
+modulate = Color(0.909804, 0.364706, 0.364706, 1)
+position = Vector2(-4, 30)
+scale = Vector2(1, 0.292969)
+texture = ExtResource("4_cdghk")
+
+[node name="ExplosionParticle" parent="." instance=ExtResource("5_smnhs")]
+position = Vector2(0, -2)
+amount = 50
+speed_scale = 1.5
+explosiveness = 0.72
+randomness = 0.0
+collision_base_size = 0.0
+
+[node name="AttackArea" type="Area2D" parent="."]
+position = Vector2(0, -2)
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("CircleShape2D_x8y2e")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="RedGhost" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Components")]
+position = Vector2(0, -2)
+collision_layer = 2
+script = ExtResource("1_ww6dp")
+Components = []
+metadata/_edit_horizontal_guides_ = [-405.0]
+
+[node name="Character" type="Sprite2D" parent="RedGhost"]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_lvaja")
 position = Vector2(0, -70.07)
 texture = ExtResource("1_gsrap")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedGhost"]
 physics_interpolation_mode = 2
 y_sort_enabled = true
 position = Vector2(0, -23)
@@ -41,35 +75,53 @@ shape = SubResource("CircleShape2D_3uklq")
 
 [node name="Actions" type="Node" parent="."]
 
-[node name="MoveAction" parent="Actions" node_paths=PackedStringArray("VelocityComponent", "CharacterBody") instance=ExtResource("3_rjbkb")]
-VelocityComponent = NodePath("../../Components/VelocityComponent")
-CharacterBody = NodePath("../..")
+[node name="ExplodeSelfAttack" type="Node" parent="Actions" node_paths=PackedStringArray("Self", "Particles")]
+script = ExtResource("7_mnkfy")
+Self = NodePath("../../RedGhost")
+Particles = NodePath("../../Components/ParticleEmitterComponent")
 
-[node name="ExplodeSelfAttack" type="Node" parent="Actions" node_paths=PackedStringArray("Item", "DamageComponent")]
-script = ExtResource("4_ke5ks")
-Item = NodePath("../..")
-DamageComponent = NodePath("../../Components/DamageComponent")
+[node name="SpawnAction" type="Node" parent="Actions" node_paths=PackedStringArray("_spawnSprite", "_characterSprite")]
+script = ExtResource("8_dxkxr")
+_spawnSprite = NodePath("../../SpawnIndicator")
+_characterSprite = NodePath("../../RedGhost/Character")
+
+[node name="SpawnTimer" type="Timer" parent="Actions/SpawnAction"]
+
+[node name="MoveAction" type="Node" parent="Actions"]
+script = ExtResource("7_ofywg")
+
+[node name="IsSpawnCompletedPolicy" type="Node" parent="Actions/MoveAction"]
+script = ExtResource("9_iukxj")
+
+[node name="FindClosestEntityInGroupAction" type="Node" parent="Actions" node_paths=PackedStringArray("_entity")]
+script = ExtResource("9_adj42")
+_groupName = &"Player"
+_entity = NodePath("../..")
 
 [node name="Behaviors" type="Node" parent="."]
 
-[node name="FindClosestPlayerBehavior" type="Node" parent="Behaviors" node_paths=PackedStringArray("Character", "MoveAction", "ClosestPlayerComponent")]
-script = ExtResource("2_yu2l6")
-Character = NodePath("../..")
-MoveAction = NodePath("../../Actions/MoveAction")
-ClosestPlayerComponent = NodePath("../../Components/ClosestPlayerComponent")
-
 [node name="AttackOnCollideBehavior" type="Node" parent="Behaviors" node_paths=PackedStringArray("TargetArea", "Attack")]
 script = ExtResource("5_888wu")
-TargetArea = NodePath("../../Area2D")
+TargetArea = NodePath("../../AttackArea")
 Attack = NodePath("../../Actions/ExplodeSelfAttack")
 
 [node name="Components" type="Node" parent="."]
 
 [node name="VelocityComponent" parent="Components" instance=ExtResource("3_peqan")]
-SpeedFactor = 120.0
 
-[node name="ClosestPlayerComponent" type="Node" parent="Components"]
-script = ExtResource("5_rob4b")
+[node name="ClosestEntityComponent" parent="Components" instance=ExtResource("14_ovyiy")]
 
 [node name="DamageComponent" type="Node" parent="Components"]
 script = ExtResource("9_7s4qd")
+
+[node name="SequenceComponent" type="Node" parent="Components"]
+
+[node name="ParticleEmitterComponent" type="Node" parent="Components" node_paths=PackedStringArray("_particle")]
+script = ExtResource("13_ub46t")
+_particle = NodePath("../../ExplosionParticle")
+
+[node name="PlayerComponent" type="Node" parent="Components"]
+script = ExtResource("18_w7r5n")
+
+[node name="DirectionComponent" type="Node" parent="Components"]
+script = ExtResource("19_7prky")

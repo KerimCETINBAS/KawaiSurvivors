@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.84, 0.84, 0.84, 1)
 config/icon="res://assets/Sprites/Plushies Icon.png"
 
+[autoload]
+
+PlayerManager="*res://Scripts/Globals/PlayerManager.cs"
+
 [dotnet]
 
 project/assembly_name="KawaiSurvivor"

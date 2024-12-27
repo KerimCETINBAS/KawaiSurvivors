@@ -1,0 +1,115 @@
+[gd_scene load_steps=17 format=3 uid="uid://c80esoxwxk3v4"]
+
+[ext_resource type="Script" path="res://Scripts/Entity/Enemies/RedGhostECS.cs" id="1_b1j2e"]
+[ext_resource type="PackedScene" uid="uid://d4ipkoswksspe" path="res://Scenes/Components/VelocityComponent.tscn" id="2_cvcnh"]
+[ext_resource type="Shader" path="res://Resources/Shaders/RedGhost.gdshader" id="4_1yk66"]
+[ext_resource type="Texture2D" uid="uid://cpq4t5h15a5rm" path="res://assets/Sprites/Mine/Circle.png" id="4_s5oth"]
+[ext_resource type="Texture2D" uid="uid://bvd0cec2tf30a" path="res://assets/Sprites/Enemies/Ghost.png" id="5_25c3h"]
+[ext_resource type="PackedScene" uid="uid://co1akufau7ekc" path="res://Scenes/Components/CharacterBodyComponent.tscn" id="8_74gcp"]
+[ext_resource type="PackedScene" uid="uid://c5wc1sdh7dhm" path="res://Scenes/Actions/FindClosestPlayerAction.tscn" id="8_5116y"]
+[ext_resource type="PackedScene" uid="uid://7sthssbdco2k" path="res://Scenes/Components/PlayerRefComponent.tscn" id="8_af8ta"]
+[ext_resource type="Script" path="res://Scripts/Components/SpawnSequenceComponent.cs" id="8_t8ixc"]
+[ext_resource type="Script" path="res://Scripts/Behaviors/EnemyBehavior.cs" id="9_mopwp"]
+[ext_resource type="Script" path="res://Scripts/Actions/SpawnAction.cs" id="11_cbhov"]
+[ext_resource type="Script" path="res://Scripts/Actions/MoveToClosestPlayerAction.cs" id="11_fera1"]
+[ext_resource type="Script" path="res://Scripts/Policies/EnemyFoundPolicy.cs" id="11_keu4y"]
+[ext_resource type="Script" path="res://Scripts/Policies/SpawnCompletedPolicy.cs" id="13_707mp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b0k3g"]
+render_priority = 0
+shader = ExtResource("4_1yk66")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ojgbc"]
+radius = 75.06
+
+[node name="RedGhostECS" type="Node2D" node_paths=PackedStringArray("_components")]
+y_sort_enabled = true
+script = ExtResource("1_b1j2e")
+_components = [NodePath("Components/VelocityComponent"), NodePath("Components/PlayerRefComponent"), NodePath("Components/CharacterBodyComponent")]
+
+[node name="RedGhostBody" type="CharacterBody2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -2)
+collision_layer = 2
+slide_on_ceiling = false
+metadata/_edit_horizontal_guides_ = [-405.0]
+
+[node name="Character" type="Sprite2D" parent="RedGhostBody"]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_b0k3g")
+position = Vector2(0, -70.07)
+texture = ExtResource("5_25c3h")
+
+[node name="SpawnIndicator" type="Sprite2D" parent="RedGhostBody"]
+visible = false
+modulate = Color(0.909804, 0.364706, 0.364706, 1)
+y_sort_enabled = true
+position = Vector2(0, 5)
+scale = Vector2(1, 0.386719)
+texture = ExtResource("4_s5oth")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedGhostBody"]
+physics_interpolation_mode = 2
+y_sort_enabled = true
+position = Vector2(0, -23)
+shape = SubResource("CircleShape2D_ojgbc")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="VelocityComponent" parent="Components" node_paths=PackedStringArray("_parentEntity") instance=ExtResource("2_cvcnh")]
+_speedFactor = 100.0
+_parentEntity = NodePath("../..")
+
+[node name="PlayerRefComponent" parent="Components" node_paths=PackedStringArray("_parentEntity") instance=ExtResource("8_af8ta")]
+_parentEntity = NodePath("../..")
+
+[node name="CharacterBodyComponent" parent="Components" node_paths=PackedStringArray("Body", "_parentEntity") instance=ExtResource("8_74gcp")]
+Body = NodePath("../../RedGhostBody")
+_parentEntity = NodePath("../..")
+
+[node name="SpawnSequenceComponent" type="Node" parent="Components" node_paths=PackedStringArray("_parentEntity")]
+script = ExtResource("8_t8ixc")
+_parentEntity = NodePath("../..")
+
+[node name="Behaviors" type="Node" parent="."]
+
+[node name="EnemyBehavior" type="Node" parent="Behaviors" node_paths=PackedStringArray("_findClosestPlayerAction", "_moveToClosestPlayerAction", "_spawnAction", "_policies", "_parentEntity")]
+script = ExtResource("9_mopwp")
+_findClosestPlayerAction = NodePath("../../Actions/FindClosestPlayerAction")
+_moveToClosestPlayerAction = NodePath("../../Actions/MoveToClosestPlayerAction")
+_spawnAction = NodePath("../../Actions/SpawnAction")
+_policies = [NodePath("../../Policies/EnemyFoundPolicy"), NodePath("../../Policies/SpawnCompleatedPolicy")]
+_parentEntity = NodePath("../..")
+
+[node name="Actions" type="Node" parent="."]
+
+[node name="FindClosestPlayerAction" parent="Actions" node_paths=PackedStringArray("_characterBodyComponent", "_playerRefComponent", "_parentEntity") instance=ExtResource("8_5116y")]
+_characterBodyComponent = NodePath("../../Components/CharacterBodyComponent")
+_playerRefComponent = NodePath("../../Components/PlayerRefComponent")
+_parentEntity = NodePath("../..")
+
+[node name="MoveToClosestPlayerAction" type="Node" parent="Actions" node_paths=PackedStringArray("_characterBodyComponent", "_playerRefComponent", "_velocityComponent", "_parentEntity")]
+script = ExtResource("11_fera1")
+_characterBodyComponent = NodePath("../../Components/CharacterBodyComponent")
+_playerRefComponent = NodePath("../../Components/PlayerRefComponent")
+_velocityComponent = NodePath("../../Components/VelocityComponent")
+_parentEntity = NodePath("../..")
+
+[node name="SpawnAction" type="Node" parent="Actions" node_paths=PackedStringArray("_sequenceRenderer", "_characterRenderer", "_spawnSequenceComponent", "_parentEntity")]
+script = ExtResource("11_cbhov")
+_sequenceRenderer = NodePath("../../RedGhostBody/SpawnIndicator")
+_characterRenderer = NodePath("../../RedGhostBody/Character")
+_spawnSequenceComponent = NodePath("../../Components/SpawnSequenceComponent")
+_parentEntity = NodePath("../..")
+
+[node name="Policies" type="Node" parent="."]
+
+[node name="EnemyFoundPolicy" type="Node" parent="Policies" node_paths=PackedStringArray("_parentEntity")]
+script = ExtResource("11_keu4y")
+_parentEntity = NodePath("../..")
+
+[node name="SpawnCompleatedPolicy" type="Node" parent="Policies" node_paths=PackedStringArray("_spawnSequenceComponent", "_spawnAction", "_parentEntity")]
+script = ExtResource("13_707mp")
+_spawnSequenceComponent = NodePath("../../Components/SpawnSequenceComponent")
+_spawnAction = NodePath("../../Actions/SpawnAction")
+_parentEntity = NodePath("../..")

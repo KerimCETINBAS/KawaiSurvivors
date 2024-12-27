@@ -3,12 +3,17 @@ using KawaiSurvivor.Scripts.Components;
 
 namespace KawaiSurvivor.Scripts.Actions;
 
-public partial class Attack : Node
+public abstract partial class Attack : Node
 {
     
-    [Export] protected DamageComponent DamageComponent { get; set; }
+    protected DamageComponent DamageComponent { get; set; }
+
+    protected bool _canAttack;
+    public bool CanAttack => _canAttack;
     public virtual void TryAttack()
     {
-        
+            
     }
+    
+    
 }

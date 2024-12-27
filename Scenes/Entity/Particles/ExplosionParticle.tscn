@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy8qm363lw4x2"]
+
+[ext_resource type="Texture2D" uid="uid://cpq4t5h15a5rm" path="res://assets/Sprites/Mine/Circle.png" id="1_v42w3"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yhlic"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+particle_flag_damping_as_friction = true
+emission_shape_offset = Vector3(0, 0, 1)
+emission_shape_scale = Vector3(1, 1, 0)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(1, 1, 0)
+spread = 180.0
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = -1.60933e-05
+orbit_velocity_min = 0.5
+orbit_velocity_max = 0.5
+radial_velocity_min = 272.17
+radial_velocity_max = 272.62
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -100.0
+linear_accel_max = -100.0
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+attractor_interaction_enabled = false
+scale_min = 0.1
+scale_max = 0.1
+turbulence_enabled = true
+
+[node name="ExplosionParticle" type="GPUParticles2D"]
+self_modulate = Color(0.909804, 0.364706, 0.364706, 1)
+emitting = false
+amount = 100
+lifetime = 1.2
+one_shot = true
+speed_scale = 1.1
+explosiveness = 0.6
+randomness = 0.6
+collision_base_size = 0.16
+texture = ExtResource("1_v42w3")
+process_material = SubResource("ParticleProcessMaterial_yhlic")

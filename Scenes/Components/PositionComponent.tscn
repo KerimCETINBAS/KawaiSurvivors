@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv3x17fh8ch1d"]
+
+[ext_resource type="Script" path="res://Scripts/Components/PositionComponent.cs" id="1_toco3"]
+
+[node name="PositionComponent" type="Node"]
+script = ExtResource("1_toco3")
